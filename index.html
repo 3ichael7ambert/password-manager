@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Password Manager</title>
+    <script>
+        function savePassword() {
+            var website = document.getElementById("website").value;
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+
+            var passwords = JSON.parse(localStorage.getItem("passwords")) || {};
+            passwords[website] = { username: username, password: password };
+
+            localStorage.setItem("passwords", JSON.stringify(passwords));
+
+            alert("Password saved successfully!");
+        }
+
+        function retrievePassword() {
+            var website = document.getElementById("retrieveWebsite").value;
+            var passwords = JSON.parse(localStorage.getItem("passwords"));
+
+            if (passwords && passwords[website]) {
+                var username = passwords[website].username;
+                var password = passwords[website].password;
+
+                document.getElementById("retrievedUsername").textContent = "Username: " + username;
+                document.getElementById("retrievedPassword").textContent = "Password: " + password;
+            } else {
+                document.getElementById("retrievedUsername").textContent = "No information found.";
+                document.getElementById("retrievedPassword").textContent = "";
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Password Manager</h1>
+    
+    <h2>Save Password</h2>
+    <label for="website">Website:</label>
+    <input type="text" id="website"><br>
+    <label for="username">Username:</label>
+    <input type="text" id="username"><br>
+    <label for="password">Password:</label>
+    <input type="password" id="password"><br>
+    <button onclick="savePassword()">Save Password</button>
+
+    <h2>Retrieve Password</h2>
+    <label for="retrieveWebsite">Website:</label>
+    <input type="text" id="retrieveWebsite"><br>
+    <button onclick="retrievePassword()">Retrieve Password</button>
+    <p id="retrievedUsername"></p>
+    <p id="retrievedPassword"></p>
+</body>
+</html>
